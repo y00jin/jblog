@@ -41,7 +41,10 @@
 				</div>
 				<ul class="blog-list">
 					<c:forEach items='${postList }' var='postvo' varStatus='status'>
-						<li><a href="">${postvo.title }</a><span>${fn:substring(postvo.regDate,0,11) }</span></li>
+						<li>
+							<a href="${pageContext.request.contextPath }/${authUser.id }/${postvo.categoryNo }/${postvo.no }">${postvo.title }</a>
+							<span>${fn:substring(postvo.regDate,0,11) }</span>
+						</li>
 					</c:forEach>
 				</ul>
 			</div>

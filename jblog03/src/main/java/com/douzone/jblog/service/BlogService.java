@@ -1,5 +1,6 @@
 package com.douzone.jblog.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,27 @@ public class BlogService {
 		UserVo vo = new UserVo();
 		vo.setId(id);
 		return blogRepository.getBlogMainPostList(vo);
+	}
+
+	public PostVo getCategoryMainPost(String id, Long categoryNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("categoryNo", categoryNo);
+		return blogRepository.getCategoryMainPost(map);
+	}
+
+	public List<PostVo> getCategoryPostList(String id, Long categoryNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("categoryNo", categoryNo);
+		return blogRepository.getCategoryPostList(map);
+	}
+	
+	public PostVo getCategoryPost(String id, Long categoryNo, Long postNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("categoryNo", categoryNo);
+		map.put("postNo", postNo);
+		return blogRepository.getCategoryPost(map);
 	}
 }
