@@ -12,36 +12,55 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
+			<h1><a href="${pageContext.request.contextPath }/${authUser.id}">${blogVo.title }</a></h1>
 			<ul>
-				<li><a href="">로그인</a></li>
-				<li><a href="">로그아웃</a></li>
+				<c:choose>
+				<c:when test="${empty authUser }">
+				<li><a href="${pageContext.request.contextPath }/user/login">로그인</a></li>
+				</c:when>
+				<c:otherwise>
+				<li><a href="${pageContext.request.contextPath }/user/logout" onclick="return logoutChk();">로그아웃</a></li>
+				<script type="text/javascript">
+					function logoutChk() {
+						return confirm("로그아웃 하시겠습니까?");
+					}
+				</script>
 				<li><a href="">블로그 관리</a></li>
+				</c:otherwise>
+			</c:choose>
 			</ul>
 		</div>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li><a href="">기본설정</a></li>
-					<li><a href="">카테고리</a></li>
-					<li class="selected">글작성</li>
+					<li class="selected">기본설정</li>
+					<li><a href="${pageContext.request.contextPath }/${authUser.id }/admin/category">카테고리</a></li>
+					<li><a href="${pageContext.request.contextPath }/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath }/${authUser.id }/admin/write" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
 			      				<input type="text" size="60" name="title">
 				      			<select name="category">
-				      				<option>미분류</option>
-				      				<option>자바</option>
+				      				<c:forEach items='${list }' var='catevo' varStatus='status'>
+				      					<c:choose>
+				      						<c:when test="${catevo.name  eq '기타'}">
+							      				<option value='${catevo.no }' selected="selected">${catevo.name }</option>
+				      						</c:when>
+											<c:otherwise>
+					      						<option value='${catevo.no }'>${catevo.name }</option>
+											</c:otherwise>
+				      					</c:choose>
+				      				</c:forEach>	
 				      			</select>
 				      		</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">내용</td>
-			      			<td><textarea name="content"></textarea></td>
-			      		</tr>
+			      			<td><textarea name="contents"></textarea></td>
+			      		</tr> 
 			      		<tr>
 			      			<td>&nbsp;</td>
 			      			<td class="s"><input type="submit" value="포스트하기"></td>

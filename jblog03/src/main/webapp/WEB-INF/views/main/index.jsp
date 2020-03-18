@@ -25,7 +25,7 @@
 						return confirm("로그아웃 하시겠습니까?");
 					}
 					</script>
-					<li><a href="">내블로그</a></li>
+					<li><a href="${pageContext.request.contextPath }/${authUser.id}">내블로그</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>

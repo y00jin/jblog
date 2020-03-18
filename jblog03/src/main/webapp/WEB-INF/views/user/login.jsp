@@ -26,14 +26,14 @@
 						return confirm("로그아웃 하시겠습니까?");
 					}
 					</script>
-					<li><a href="">내블로그</a></li>
+					<li><a href="${pageContext.request.contextPath }/${authUser.id}">내블로그</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>
 		<form class="login-form" name="loginform" method="post" action="${pageContext.request.contextPath }/user/auth">
       		<label>아이디</label> <input type="text" name="id" value="${userVo.id }">
-      		<label>패스워드</label> <input type="text" name="password">
-      		<c:if test="${not empty userVo }">
+      		<label>패스워드</label> <input type="password" name="password">
+	      	<c:if test="${not empty userVo }">
 				<p>
 					로그인이 실패 했습니다.
 				</p>

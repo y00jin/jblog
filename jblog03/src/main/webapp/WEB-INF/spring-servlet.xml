@@ -10,13 +10,13 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
-<!-- 		<mvc:argument-resolvers> -->
-<!-- 			<bean -->
-<!-- 				class="com.douzone.security.AuthUserHandlerMethodArgumentResolver" /> -->
-<!-- 		</mvc:argument-resolvers> -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
+		<mvc:argument-resolvers>
+			<bean
+				class="com.douzone.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />
 
@@ -31,26 +31,25 @@
 			<mvc:mapping path="/user/logout" />
 			<bean class="com.douzone.security.LogoutInterceptor" />
 		</mvc:interceptor>
+
+
 	</mvc:interceptors>
 
-	<!-- 
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/user/auth" />
-			<mvc:exclude-mapping path="/user/logout" />
-			<mvc:exclude-mapping path="/assets/**" />
-			<bean class="com.douzone.security.AuthInterceptor" />
-		</mvc:interceptor>
-	 -->
+	<!-- <mvc:interceptor> -->
+	<!-- <mvc:mapping path="/**" /> -->
+	<!-- <mvc:exclude-mapping path="/user/auth" /> -->
+	<!-- <mvc:exclude-mapping path="/user/logout" /> -->
+	<!-- <mvc:exclude-mapping path="/assets/**" /> -->
+	<!-- <bean class="com.douzone.security.AuthInterceptor" /> -->
+	<!-- </mvc:interceptor> -->
+
 
 	<context:annotation-config />
 	<context:component-scan
 		base-package="com.douzone.jblog.controller" />
-<!-- 		base-package="com.douzone.jblog.controller, com.douzone.jblog.exception" /> -->
+	<!-- base-package="com.douzone.jblog.controller, com.douzone.jblog.exception" 
+		/> -->
 
-	<!-- mvc resources -->
-	<mvc:resources mapping="/images/**"
-		location="file:/jblog-uploads/" />
 
 	<!-- ViewResolver 설정 -->
 	<bean id="viewResolver"
@@ -63,16 +62,17 @@
 	</bean>
 
 	<!-- 멀티파트 리졸버 -->
-	<!-- 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
 		<property name="maxUploadSize" value="52428800" />
-
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
+	<!-- mvc resources -->
+	<mvc:resources mapping="/assets/images/**"
+		location="file:/jblog-uploads/" />
 
-	<mvc:resources mapping="/upload-images/**" location="file:/upload/" />
-	 -->
+	<mvc:resources mapping="/default/**"
+		location="file:/eclipse_workspace/jblog/jblog03/src/main/webapp/assets/images" />
 
 </beans>
