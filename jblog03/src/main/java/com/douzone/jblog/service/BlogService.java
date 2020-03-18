@@ -52,5 +52,16 @@ public class BlogService {
 	public void insertPost(PostVo postVo) {
 		blogRepository.insertPost(postVo);
 	}
+	
+	public PostVo getBlogMainPost(String id) {
+		UserVo vo = new UserVo();
+		vo.setId(id);
+		return blogRepository.getBlogMainPost(vo);
+	}
 
+	public List<PostVo> getBlogMainPostList(String id) {
+		UserVo vo = new UserVo();
+		vo.setId(id);
+		return blogRepository.getBlogMainPostList(vo);
+	}
 }

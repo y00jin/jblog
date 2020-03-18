@@ -38,10 +38,23 @@ public class BlogController {
 	public String blogMain(
 			Model model,
 			@AuthUser UserVo authUser,
-			@PathVariable("id") String id) {
+			@PathVariable("id") String id,
+			@PathVariable("pathNo1") Long pathNo1) {
+		
 		blogVo(model, id);
+		
+		PostVo vo = blogService.getBlogMainPost(id);
+		model.addAttribute("mainPost", vo);
+
 		List<CategoryVo> list = blogService.getBlogCategory(id);
 		model.addAttribute("list",list);
+		
+		List<PostVo> postList = blogService.getBlogMainPostList(id);
+		model.addAttribute("postList",postList);
+		
+		if(pathNo1 == null) {
+			
+		}
 		
 		return "blog/blog-main";
 	}

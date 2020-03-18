@@ -48,4 +48,11 @@ public class BlogRepository {
 		sqlSession.insert("blog.insertpost", postVo);
 	}
 	
+	public PostVo getBlogMainPost(UserVo vo) {
+		return sqlSession.selectOne("blog.getblogmainpost", vo);
+	}
+	
+	public List<PostVo> getBlogMainPostList(UserVo vo) {
+		return sqlSession.selectList("blog.getblogmainpostlist", vo);
+	}
 }
