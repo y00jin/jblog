@@ -54,12 +54,12 @@
 							<td>${catevo.description }</td>
 							<td>
 							<c:choose>
-								<c:when test="${catevo.countPost == 0 }">
-									<a href="${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/${catevo.no}">
-									<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a>
+								<c:when test="${catevo.countPost != 0 || count==1}">
+									삭제 불가
 								</c:when>
 								<c:otherwise>
-									삭제 불가
+									<a href="${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/${catevo.no}">
+									<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a>
 								</c:otherwise>
 							</c:choose>
 							</td>
