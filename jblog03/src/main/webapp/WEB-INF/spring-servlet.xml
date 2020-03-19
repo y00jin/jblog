@@ -68,6 +68,6 @@
 	</bean>
 	<!-- mvc resources -->
 	
-	<mvc:resources mapping="/assets/upimages/**" location="file:/jblog-uploads/" />
+	<mvc:resources mapping="/assets/upimages/**" location="file:/jblog/images/" />
 
 </beans>
