@@ -23,7 +23,7 @@ public class BlogService {
 		BlogVo blogVo = new BlogVo();
 		blogVo.setId(vo.getId());
 		blogVo.setTitle(vo.getName() + "님의 블로그");
-		blogVo.setLogo("/jblog03/assets/images/spring-logo.jpg");
+		blogVo.setLogo("/assets/images/spring-logo.jpg");
 		return blogRepository.create(blogVo);
 	}
 
