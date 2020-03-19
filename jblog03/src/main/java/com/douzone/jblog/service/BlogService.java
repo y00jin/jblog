@@ -2,6 +2,7 @@ package com.douzone.jblog.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,39 @@ public class BlogService {
 		return blogRepository.create(blogVo);
 	}
 
+	public Map<String, Object> getAll(String id, Long categoryNo, Long postNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(categoryNo != 0L && postNo != 0L) {
+			HashMap<String, Object> setMap = new HashMap<String, Object>();
+			setMap.put("id", id);
+			setMap.put("categoryNo", categoryNo);
+			setMap.put("postNo", postNo);
+			PostVo mainPost =  blogRepository.getCategoryPost(setMap);
+			List<PostVo> postList = blogRepository.getCategoryPostList(setMap);
+
+			map.put("mainPost", mainPost);
+			map.put("postList", postList);
+		} else if (categoryNo != 0L && postNo == 0L) {
+			HashMap<String, Object> setMap = new HashMap<String, Object>();
+			setMap.put("id", id);
+			setMap.put("categoryNo", categoryNo);
+			PostVo mainPost = blogRepository.getCategoryMainPost(setMap);
+			List<PostVo> postList = blogRepository.getCategoryPostList(setMap);
+			
+			map.put("mainPost", mainPost);
+			map.put("postList", postList);
+		} else {
+			UserVo vo = new UserVo();
+			vo.setId(id);
+			PostVo mainPost = blogRepository.getBlogMainPost(vo);
+			List<PostVo> postList = blogRepository.getBlogMainPostList(vo);
+			
+			map.put("mainPost", mainPost);
+			map.put("postList", postList);
+		}
+		return map;
+	}
+	
 	public BlogVo getBlogMain(String id) {
 		UserVo vo = new UserVo();
 		vo.setId(id);
@@ -54,37 +88,13 @@ public class BlogService {
 		blogRepository.insertPost(postVo);
 	}
 	
-	public PostVo getBlogMainPost(String id) {
-		UserVo vo = new UserVo();
-		vo.setId(id);
-		return blogRepository.getBlogMainPost(vo);
-	}
 
-	public List<PostVo> getBlogMainPostList(String id) {
-		UserVo vo = new UserVo();
-		vo.setId(id);
-		return blogRepository.getBlogMainPostList(vo);
-	}
 
-	public PostVo getCategoryMainPost(String id, Long categoryNo) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("categoryNo", categoryNo);
-		return blogRepository.getCategoryMainPost(map);
-	}
 
-	public List<PostVo> getCategoryPostList(String id, Long categoryNo) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("categoryNo", categoryNo);
-		return blogRepository.getCategoryPostList(map);
-	}
-	
-	public PostVo getCategoryPost(String id, Long categoryNo, Long postNo) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("categoryNo", categoryNo);
-		map.put("postNo", postNo);
-		return blogRepository.getCategoryPost(map);
-	}
+
+
+
+
+
+
 }

@@ -51,39 +51,22 @@ public class BlogController {
 
 		Long categoryNo = 0L;
 		Long postNo = 0L;
-
+		
 		if (pathNo2.isPresent()) {
 			postNo = pathNo2.get();
 			categoryNo = pathNo1.get();
-			
-			PostVo vo = blogService.getCategoryPost(id, categoryNo, postNo);
-			model.addAttribute("mainPost", vo);
-			
-			List<PostVo> postList = blogService.getCategoryPostList(id, categoryNo);
-			model.addAttribute("postList", postList);
 		} else if (pathNo1.isPresent()) {
 			categoryNo = pathNo1.get();
-			PostVo vo = blogService.getCategoryMainPost(id, categoryNo);
-			model.addAttribute("mainPost", vo);
-			
-			List<PostVo> postList = blogService.getCategoryPostList(id, categoryNo);
-			model.addAttribute("postList", postList);
-		} 
-			PostVo vo = blogService.getBlogMainPost(id);
-			model.addAttribute("mainPost", vo);
-			
-			List<PostVo> postList = blogService.getBlogMainPostList(id);
-			model.addAttribute("postList", postList);
-		
-		
-//		modelMap.putAll(blogService.getAll(id, categoryNo, postNo));
+		}
+
+		modelMap.putAll(blogService.getAll(id, categoryNo, postNo));
 		
 		return "blog/blog-main";
 	}
 
 	@RequestMapping(value = "/admin/basic")
 	public String blogBasic(Model model, @AuthUser UserVo authUser, @PathVariable("id") String id) {
-		if (authUser == null) {
+		if (authUser == null || !id.equals(authUser.getId())) {
 			return "redirect:/user/login";
 		}
 		blogVo(model, id);
@@ -127,7 +110,7 @@ public class BlogController {
 	public String blogWrite(@ModelAttribute PostVo postVo, @RequestParam(value = "category", required = true) Long no) {
 		postVo.setCategoryNo(no);
 		blogService.insertPost(postVo);
-		return "redirect:/{id}/admin/category";
+		return "redirect:/{id}";
 	}
 
 	@RequestMapping(value = "/admin/category", method = RequestMethod.POST)
@@ -144,9 +127,4 @@ public class BlogController {
 		return "redirect:/{id}/admin/category";
 	}
 	
-//	@ResponseBody
-//	@RequestMapping("/admin/basic")
-//	public String adminBasic(@PathVariable String id) {
-//		return "id:" + id;
-//	}
 }

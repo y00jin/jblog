@@ -15,20 +15,22 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><a href="${pageContext.request.contextPath }/${authUser.id}">${blogVo.title }</a></h1>
+			<h1><a href="${pageContext.request.contextPath }/${blogVo.id}">${blogVo.title }</a></h1>
 			<ul>
 			<c:choose>
 				<c:when test="${empty authUser }">
-				<li><a href="${pageContext.request.contextPath }/user/login">로그인</a></li>
+					<li><a href="${pageContext.request.contextPath }/user/login">로그인</a></li>
 				</c:when>
 				<c:otherwise>
-				<li><a href="${pageContext.request.contextPath }/user/logout" onclick="return logoutChk();">로그아웃</a></li>
-				<script type="text/javascript">
-					function logoutChk() {
-						return confirm("로그아웃 하시겠습니까?");
-					}
-				</script>
-				<li><a href="${pageContext.request.contextPath }/${blogVo.id }/admin/basic">블로그 관리</a></li>
+					<li><a href="${pageContext.request.contextPath }/user/logout" onclick="return logoutChk();">로그아웃</a></li>
+					<script type="text/javascript">
+						function logoutChk() {
+							return confirm("로그아웃 하시겠습니까?");
+						}
+					</script>
+					<c:if test="${blogVo.id eq authUser.id }">
+						<li><a href="${pageContext.request.contextPath }/${blogVo.id }/admin/basic">블로그 관리</a></li>
+					</c:if>
 				</c:otherwise>
 			</c:choose>
 			</ul>
@@ -42,7 +44,7 @@
 				<ul class="blog-list">
 					<c:forEach items='${postList }' var='postvo' varStatus='status'>
 						<li>
-							<a href="${pageContext.request.contextPath }/${authUser.id }/${postvo.categoryNo }/${postvo.no }">${postvo.title }</a>
+							<a href="${pageContext.request.contextPath }/${blogVo.id }/${postvo.categoryNo }/${postvo.no }">${postvo.title }</a>
 							<span>${fn:substring(postvo.regDate,0,11) }</span>
 						</li>
 					</c:forEach>
@@ -60,7 +62,19 @@
 			<h2>카테고리</h2>
 			<ul>
 				<c:forEach items='${list }' var='catevo' varStatus='status'>
-					<li><a href="${pageContext.request.contextPath }/${authUser.id }/${catevo.no }">${catevo.name }</a></li>
+					<c:choose>
+						<c:when test="${catevo.countPost == 0 }">
+							<li><a href="" onclick="return noPost();">${catevo.name }</a></li>
+							<script type="text/javascript">
+								function noPost() {
+									return alert("카테고리 내에 글이 존재하지 않습니다");
+								}
+							</script>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageContext.request.contextPath }/${blogVo.id }/${catevo.no }">${catevo.name }</a></li>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 			</ul>
 		</div>

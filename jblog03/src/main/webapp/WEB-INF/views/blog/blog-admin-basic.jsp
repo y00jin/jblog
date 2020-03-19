@@ -12,7 +12,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><a href="${pageContext.request.contextPath }/${authUser.id}">${blogVo.title }</a></h1>
+			<h1><a href="${pageContext.request.contextPath }/${blogVo.id}">${blogVo.title }</a></h1>
 			<ul>
 			<c:choose>
 				<c:when test="${empty authUser }">
@@ -33,7 +33,7 @@
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li class="selected">기본설정</li>
+					<li class="selected"><a href="${pageContext.request.contextPath }/${authUser.id }/admin/basic">기본설정</a></li>
 					<li><a href="${pageContext.request.contextPath }/${authUser.id }/admin/category">카테고리</a></li>
 					<li><a href="${pageContext.request.contextPath }/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
