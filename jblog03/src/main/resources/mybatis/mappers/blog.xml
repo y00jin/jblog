@@ -72,8 +72,10 @@
 			a.contents as contents,
 			a.reg_date as regDate,
 			a.category_no as categoryNo 
-		from post as a, user as b 
-		where b.id = #{id}
+		from post as a, category as b 
+		where 
+			a.category_no = b.no 
+			and b.id = #{id}
 		order by a.reg_date desc 
 		limit 1
 		]]>
