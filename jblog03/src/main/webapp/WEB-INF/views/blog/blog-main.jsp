@@ -61,10 +61,13 @@
 		<div id="navigation">
 			<h2>카테고리</h2>
 			<ul>
+				<li><a href="${pageContext.request.contextPath }/${blogVo.id }">- 전체보기</a></li>
+				<li> </li>
+				<li> </li>
 				<c:forEach items='${list }' var='catevo' varStatus='status'>
 					<c:choose>
 						<c:when test="${catevo.countPost == 0 }">
-							<li><a href="" onclick="return noPost();">${catevo.name }</a></li>
+							<li><a href="" onclick="return noPost();">- ${catevo.name }</a></li>
 							<script type="text/javascript">
 								function noPost() {
 									return alert("카테고리 내에 글이 존재하지 않습니다");
@@ -72,7 +75,7 @@
 							</script>
 						</c:when>
 						<c:otherwise>
-							<li><a href="${pageContext.request.contextPath }/${blogVo.id }/${catevo.no }">${catevo.name }</a></li>
+							<li><a href="${pageContext.request.contextPath }/${blogVo.id }/${catevo.no }">- ${catevo.name }</a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>

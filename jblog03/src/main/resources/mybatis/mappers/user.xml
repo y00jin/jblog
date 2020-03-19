@@ -19,4 +19,12 @@
 		]]>
 	</select>
 
+	<select id="findByEmail" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(id)
+			from user 
+			where id = #{id } 
+		]]>
+	</select>
+
 </mapper>

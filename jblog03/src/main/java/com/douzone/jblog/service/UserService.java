@@ -19,5 +19,9 @@ public class UserService {
 	public UserVo getUser(UserVo vo) {
 		return userRepository.findByEmailAndPassword(vo);
 	}
+	
+	public int getUserExist(String id) {
+		return userRepository.findByEmail(id);
+	}
 
 }

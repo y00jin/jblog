@@ -32,6 +32,7 @@
 		from category as a left outer join post as b 
 		on a.no = b.category_no
         where a.id=#{id}
+       		and name not in ('전체보기')
         group by a.no
         order by a.reg_date desc
 		]]>

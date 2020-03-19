@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.jblog.service.BlogService;
 import com.douzone.jblog.service.FileUploadService;
+import com.douzone.jblog.service.UserService;
 import com.douzone.jblog.vo.BlogVo;
 import com.douzone.jblog.vo.CategoryVo;
 import com.douzone.jblog.vo.PostVo;
@@ -26,6 +27,8 @@ import com.douzone.security.AuthUser;
 @RequestMapping("/{id:(?!assets).*}")
 public class BlogController {
 
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private BlogService blogService;
 	@Autowired
@@ -44,6 +47,10 @@ public class BlogController {
 			@PathVariable Optional<Long> pathNo2, 
 			ModelMap modelMap) {
 
+		if(userService.getUserExist(id) == 0) {
+			return "blog/blog-main-not-exist";
+		}
+		
 		blogVo(model, id);
 		List<CategoryVo> list = blogService.getBlogCategory(id);
 		model.addAttribute("list", list);
@@ -89,7 +96,9 @@ public class BlogController {
 
 	@RequestMapping(value = "/admin/category")
 	public String blogCategory(Model model, @AuthUser UserVo authUser, @PathVariable("id") String id) {
-
+		if (authUser == null || !id.equals(authUser.getId())) {
+			return "redirect:/user/login";
+		}
 		blogVo(model, id);
 
 		List<CategoryVo> list = blogService.getBlogCategory(id);
@@ -99,6 +108,9 @@ public class BlogController {
 
 	@RequestMapping(value = "/admin/write")
 	public String blogWrite(Model model, @AuthUser UserVo authUser, @PathVariable("id") String id) {
+		if (authUser == null || !id.equals(authUser.getId())) {
+			return "redirect:/user/login";
+		}
 		blogVo(model, id);
 		List<CategoryVo> list = blogService.getBlogCategory(id);
 		model.addAttribute("list", list);

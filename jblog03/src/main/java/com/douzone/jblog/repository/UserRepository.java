@@ -20,4 +20,8 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByEmailAndPassword", vo);
 	}
 	
+	public int findByEmail(String id) {
+		return sqlSession.selectOne("user.findByEmail", id);
+	}
+	
 }
