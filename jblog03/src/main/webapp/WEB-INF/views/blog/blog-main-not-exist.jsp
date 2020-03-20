@@ -53,10 +53,10 @@
 #error_content {
 	width: 350px;
 	_width /**/: 510px;
-	height: 300px;
+	height: 220px;
 	_height: 208px;
 	margin: 0 auto;
-	margin-top: 50px;
+	margin-top: 80px;
 	padding: 0 0 0 300px;
 	border: 1px solid #e5e5e5;
 	background: #FFF
@@ -81,9 +81,8 @@
 	font-size: 0;
 }
 
-#error_content p.btn img {
-	margin-right: 1px;
-	*margin-right: 1px;
+#error_content p.btn a {
+	color:#1555d9; font-weight:bold; text-decoration:none;
 }
 </style>
 </head>
