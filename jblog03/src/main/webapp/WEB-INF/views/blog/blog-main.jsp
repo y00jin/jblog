@@ -33,6 +33,7 @@
 					</c:if>
 				</c:otherwise>
 			</c:choose>
+			<li><a href="${pageContext.request.contextPath }/main">JBLOG</a></li>
 			</ul>
 		</div>
 		<div id="wrapper">
