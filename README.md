@@ -14,5 +14,3 @@
 * @Configuration
 * @Bean
 * @Qulifier
-
-* @EnableAspectJAutoProxy
