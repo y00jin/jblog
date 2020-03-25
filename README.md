@@ -1,11 +1,4 @@
-# jblog
+# JBLOG
+-------------------------------
+## 어노테이션(Annotation) 정리
 
-- [x] asdf
-- [X] asdf
-- [v] asdf
-- [V] asdf
-
-<x>
-  <X>
-    <v>
-      <V>
