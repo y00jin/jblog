@@ -24,6 +24,9 @@
   Repository를 통해 DB에서 데이터를 가져온 후 컨트롤러에게 전달해주는 클래스임을 나타냄
   ```
  @Repository
+ 
+ @ResponseBody
+ 
  @Autowired
   ```
   의존관계를 자동으로 설정할 때 사용하며 의존하는 객체를 타입에 맞춰 삽입을 해줌
