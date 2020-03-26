@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blog">
+	<insert id = "create" parameterType="blogvo">
+		<![CDATA[
+		insert into blog values(#{id },#{title },#{logo })
+		]]>
+	</insert>
+	
+	<insert id = "defaultcategory" parameterType="blogvo">
+		<![CDATA[
+		insert into category values(null,'기타','',now(),#{id })
+		]]>
+	</insert>
+	
+	<select id = "getblogmain" parameterType="uservo" resultType="blogvo">
+		<![CDATA[
+		select id,title, logo from blog where id = #{id }
+		]]>
+	</select>
+	
+	<select id = "getblogcategory" parameterType="uservo" resultType="categoryvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.name as name,
+			a.description as description,
+			a.reg_date as regDate,
+			a.id as id, 
+			ifnull(count(b.no),0) as countPost
+		from category as a left outer join post as b 
+		on a.no = b.category_no
+        where a.id=#{id}
+       		and name not in ('전체보기')
+        group by a.no
+        order by a.reg_date desc
+		]]>
+	</select>
+	
+	<update id="update" parameterType="blogvo">
+		<![CDATA[
+		update blog 
+		set title = #{title},
+			logo = #{logo }
+		where id = #{id}
+		]]>
+	</update>
+	
+	<insert id = "insertcategory" parameterType="categoryvo">
+		<![CDATA[
+		insert into category values(null,#{name },#{description },now(),#{id })
+		]]>
+	</insert>
+	
+	<insert id = "insertpost" parameterType="postvo">
+		<![CDATA[
+		insert into post values(null,#{title },#{contents },now(),#{categoryNo })
+		]]>
+	</insert>
+	
+	<delete id = "deletecategory" parameterType="long">
+		<![CDATA[
+		delete from category where no = #{no}
+		]]>
+	</delete>
+	
+	<select id = "getblogmainpost" parameterType="uservo" resultType="postvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.title as title,
+			a.contents as contents,
+			a.reg_date as regDate,
+			a.category_no as categoryNo 
+		from post as a, category as b 
+		where 
+			a.category_no = b.no 
+			and b.id = #{id}
+		order by a.reg_date desc 
+		limit 1
+		]]>
+	</select>
+	
+	<select id = "getblogmainpostlist" parameterType="uservo" resultType="postvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.title as title,
+			a.contents as contents,
+			a.reg_date as regDate,
+			a.category_no as categoryNo 
+		from post as a, category as b 
+		where
+			a.category_no = b.no 
+			and b.id = #{id}
+		order by a.reg_date desc 
+		limit 0,5
+		]]>
+	</select>
+	
+	<select id = "getcategorymainpost" parameterType="hashmap" resultType="postvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.title as title,
+			a.contents as contents,
+			a.reg_date as regDate,
+			a.category_no as categoryNo 
+		from post as a, user as b 
+		where b.id = #{id}
+		and a.category_no = #{categoryNo}
+		order by a.reg_date desc 
+		limit 1
+		]]>
+	</select>
+	
+	<select id = "getcategorypostlist" parameterType="uservo" resultType="postvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.title as title,
+			a.contents as contents,
+			a.reg_date as regDate,
+			a.category_no as categoryNo 
+		from post as a, user as b 
+		where b.id = #{id}
+		and a.category_no = #{categoryNo}
+		order by a.reg_date desc 
+		limit 0,5
+		]]>
+	</select>
+	
+	<select id = "getcategorypost" parameterType="hashmap" resultType="postvo">
+		<![CDATA[
+		select 
+			a.no as no,
+			a.title as title,
+			a.contents as contents,
+			a.reg_date as regDate,
+			a.category_no as categoryNo 
+		from post as a, user as b 
+		where b.id = #{id}
+		and a.no = #{postNo}
+		and a.category_no = #{categoryNo}
+		order by a.reg_date desc 
+		limit 1
+		]]>
+	</select>
+	
+</mapper>
