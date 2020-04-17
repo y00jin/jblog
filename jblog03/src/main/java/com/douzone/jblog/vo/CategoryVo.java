@@ -8,6 +8,15 @@ public class CategoryVo {
 	private String regDate;
 	private String id;
 	private Long countPost;
+	private Long countCategory;
+
+	public Long getCountCategory() {
+		return countCategory;
+	}
+
+	public void setCountCategory(Long countCategory) {
+		this.countCategory = countCategory;
+	}
 
 	public Long getCountPost() {
 		return countPost;

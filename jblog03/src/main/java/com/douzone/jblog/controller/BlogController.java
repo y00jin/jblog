@@ -99,10 +99,6 @@ public class BlogController {
 		if (authUser == null || !id.equals(authUser.getId())) {
 			return "redirect:/user/login";
 		}
-		blogVo(model, id);
-
-		List<CategoryVo> list = blogService.getBlogCategory(id);
-		model.addAttribute("list", list);
 		return "blog/blog-admin-category";
 	}
 
@@ -124,13 +120,13 @@ public class BlogController {
 		return "redirect:/{id}";
 	}
 
-	@RequestMapping(value = "/admin/category", method = RequestMethod.POST)
-	public String blogCategory(@ModelAttribute CategoryVo categoryVo, @PathVariable("id") String id) {
-		CategoryVo vo = categoryVo;
-		vo.setId(id);
-		blogService.insertCategory(vo);
-		return "redirect:/{id}/admin/category";
-	}
+//	@RequestMapping(value = "/admin/category", method = RequestMethod.POST)
+//	public String blogCategory(@ModelAttribute CategoryVo categoryVo, @PathVariable("id") String id) {
+//		CategoryVo vo = categoryVo;
+//		vo.setId(id);
+//		blogService.insertCategory(vo);
+//		return "redirect:/{id}/admin/category";
+//	}
 
 	@RequestMapping("/admin/category/delete/{categoryNo}")
 	public String blogCategoryDelete(@PathVariable("categoryNo") Long no) {

@@ -1,0 +1,21 @@
+<%
+	for(var i=0; i<data.length; i++) {
+		var vo = data[i];
+%>
+		<tr>
+			<td><%= i+1 %></td>
+			<td><%=vo.name %></td>
+			<td><%=vo.countPost %></td>
+			<td><%=vo.description %></td>
+			<% if( vo.countPost !=0 || data.length == 1) { %>
+				<td style='color: #f00'><%=data.noDelete %></td>
+			<% } else { %>
+				<td>
+					<a href="<%=data.deleteLink %><%=vo.no %>">
+					<img src='<%=data.url %>'></a>
+				</td>
+			<% } %>
+		</tr>		
+<%
+	}
+%>
