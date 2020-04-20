@@ -128,10 +128,10 @@ public class BlogController {
 //		return "redirect:/{id}/admin/category";
 //	}
 
-	@RequestMapping("/admin/category/delete/{categoryNo}")
-	public String blogCategoryDelete(@PathVariable("categoryNo") Long no) {
-		blogService.deleteCategory(no);
-		return "redirect:/{id}/admin/category";
-	}
+//	@RequestMapping("/admin/category/delete/{categoryNo}")
+//	public String blogCategoryDelete(@PathVariable("categoryNo") Long no) {
+//		blogService.deleteCategory(no);
+//		return "redirect:/{id}/admin/category";
+//	}
 	
 }

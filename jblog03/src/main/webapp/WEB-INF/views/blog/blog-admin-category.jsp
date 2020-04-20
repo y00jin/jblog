@@ -21,6 +21,21 @@ var listTemplate = new EJS({
 	url: "${pageContext.request.contextPath }/assets/js/ejs/list-template.ejs"
 });
 
+var messageBox = function(title, message, callback) {
+	$("#dialog-message p").text(message);
+	$("#dialog-message")
+		.attr("title",title)
+		.dialog({
+			modal: true,
+		    buttons: {
+		    	Ok: function() {
+		          $(this).dialog("close");
+		        }
+		    },
+		    close: callback
+		});
+}
+
 var fetchList = function() {
 	$.ajax({
 		url: '${pageContext.request.contextPath }/${authUser.id }/admin/category/list',
@@ -35,11 +50,9 @@ var fetchList = function() {
 				return;
 			}		
 			var imgUrl = '${pageContext.request.contextPath }/assets/images/delete.jpg';
-			var deleteLink = '${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/';
 			var noDelete = '삭제불가';
 			
 			response.data.url = imgUrl;
-			response.data.deleteLink = deleteLink;
 			response.data.noDelete = noDelete;
 			
 			var html = listTemplate.render(response);
@@ -50,12 +63,54 @@ var fetchList = function() {
 		}
 	});
 }
+
 $(function() {
+	var dialogDelete = $("#dialog-delete").dialog({
+		autoOpen: false,
+		resizable: false,
+		height: "auto",
+		width: 400,
+		modal: true,
+		buttons: {
+			"삭제": function() {
+				var no = $("#hidden-no").val();
+				$.ajax({
+					url: '${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/' + no,
+					async: true,
+					type: 'delete',
+					dataType: 'json',
+					data: '',
+					success: function(response){
+						$(".admin-cat tr td").remove();
+						dialogDelete.dialog('close');
+						fetchList();
+					},
+					error: function(xhr, status, e) {
+						console.error(status + ":" + e);
+					}
+				});
+			},
+			"취소": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: function() {
+			$("#hidden-no").val('');
+			$('#dialog-delete-form p.validateTips.error').hide();
+		}
+	});
+	
 	$("#insert-category").submit(function(event){
 		event.preventDefault();
 		
 		var vo = {};
 		vo.name = $("#category-name").val();
+		if(vo.name == '') {
+			messageBox('카테고리 추가', '카테고리 이름은 필수 항목입니다.', function() {
+				$("#category-name").focus();
+			});
+			return;
+		}
 		vo.description = $("#category-description").val();
 		
 		$.ajax({
@@ -73,13 +128,12 @@ $(function() {
 				
 				// rendering			
 				var imgUrl = '${pageContext.request.contextPath }/assets/images/delete.jpg';
-				var deleteLink = '${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/';
+				var deleteLink = '';
 				
 				response.data.url = imgUrl;
 				response.data.deleteLink = deleteLink;
-				
 				var html = listItemTemplate.render(response.data);
-				$(".admin-cat").append(html);
+				$("#plus").after(html);
 				
 				// form reset
 				$("#insert-category")[0].reset();
@@ -91,8 +145,18 @@ $(function() {
 		
 	});
 	
+	$(document).on('click', '.admin-cat tr td a', function(event) {
+		event.preventDefault();
+		console.log('******this:' + $(this).href);
+		var no = $(this).data('no');
+		$('#hidden-no').val(no);
+		console.log("++++click : " + no);
+		dialogDelete.dialog("open");
+	});
+	
 	// 처음 리스트 가져오기
 	fetchList();
+	console.log("table tr 갯수 : " + $(".admin-cat tr").length);
 });
 </script>
 </head>
@@ -125,7 +189,7 @@ $(function() {
 					<li><a href="${pageContext.request.contextPath }/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
 		      	<table class="admin-cat">
-					<tr>
+					<tr id="plus">
 						<th>번호</th>
 						<th>카테고리명</th>
 						<th>포스트 수</th>
@@ -151,6 +215,17 @@ $(function() {
 			      	</table> 
       			</form>
 			</div>
+		</div>
+		<div id="dialog-delete" title="카테고리 삭제" style="display: none">
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 12px 12px 20px 0;"></span>
+					해당 카테고리를 삭제하시겠습니까?
+			</p>
+			<form>
+					<input type="hidden" id="hidden-no" value="">
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+  			</form>
 		</div>
 		<div id="footer">
 			<p>
