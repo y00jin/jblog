@@ -133,7 +133,8 @@ $(function() {
 				response.data.url = imgUrl;
 				response.data.deleteLink = deleteLink;
 				var html = listItemTemplate.render(response.data);
-				$("#plus").after(html);
+				$(".admin-cat tr td").remove();
+				fetchList();
 				
 				// form reset
 				$("#insert-category")[0].reset();
