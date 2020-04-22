@@ -68,4 +68,12 @@ public class BlogRepository {
 	public PostVo getCategoryPost(HashMap map) {
 		return sqlSession.selectOne("blog.getcategorypost", map);
 	}
+
+	public CategoryVo selectRecentlyCategory(CategoryVo vo) {
+		return sqlSession.selectOne("blog.getblogcategoryrecent", vo);
+	}
+
+	public Long countCategory(CategoryVo vo) {
+		return sqlSession.selectOne("blog.countcategory", vo);
+	}
 }

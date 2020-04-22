@@ -87,6 +87,14 @@ public class BlogService {
 	public void insertPost(PostVo postVo) {
 		blogRepository.insertPost(postVo);
 	}
+
+	public CategoryVo selectRecentlyCategory(CategoryVo vo) {
+		return blogRepository.selectRecentlyCategory(vo);
+	}
+
+	public Long countCategory(CategoryVo vo) {
+		return blogRepository.countCategory(vo);
+	}
 	
 
 
