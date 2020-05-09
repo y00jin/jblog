@@ -148,6 +148,7 @@ $(function() {
 	
 	$(document).on('click', '.admin-cat tr td a', function(event) {
 		event.preventDefault();
+		
 		console.log('******this:' + $(this).href);
 		var no = $(this).data('no');
 		$('#hidden-no').val(no);
